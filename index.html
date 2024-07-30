@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Bug</title> <!-- Corrección aquí -->
+    <link rel="icon" href="icono_buss_bug.ico" type="image/x-icon">
+        <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="menu_vertical.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+</head>
+<body>
+    
+    <div id="menu-vertical">
+        <div class="boton-imagen">
+            <button onclick="toggleBox('box1')" id="menu-btn1" class="menu-button">
+                <img id="imagen-btn1" src="imagenes/iconos_menu_principal/menu_icon-icons.com_69502.png" alt="Box 1" width="100%" height="auto">
+            </button>
+        </div>
+        <div class="boton-imagen">
+            <button onclick="toggleBox('box2')" id="menu-btn2" class="menu-button">
+                <img id="imagen-btn2" src="imagenes/iconos_menu_principal/bookmark_save_storage_basic_icon_192482.png" alt="Box 2" width="100%" height="auto">
+            </button>
+        </div>
+
+        <div class="boton-imagen">
+            <button onclick="toggleBox('box4')" id="menu-btn4" class="menu-button">
+                <img id="imagen-btn4" src="imagenes/iconos_menu_principal/image (10).png" alt="Box 4" width="100%" height="auto">
+            </button>
+        </div>
+    </div>
+    
+    <div class="box-container">
+        <div id="box1" class="box">
+            <button id="menu-button1" class="submenu-button">FORMULARIO</button>
+            
+            <div id="menu-container1" class="submenu-content">
+                <div id="route-message"></div>
+                    <div class="route-container1">
+                    <button class="submenu-button1">Formulario</button>
+                        <div class="submenu-content">
+                            <div id="forma">
+                                <form id="destination-form">
+                                    <label for="place">Enter Place:</label>
+                                    <input type="text" id="place" name="place" >
+                                    <hr>
+                                    <button type="button" id="lookup-btn">Get Coordinates</button>
+                                    <hr style="border: white;">
+                                    <div>
+                                        <button class="submenu-button1">Buscada Especifica</button>
+                                        <div class="submenu-content">
+
+                                        <label for="latitude">Latitude:</label>
+                                        <input type="text" id="latitude" name="latitude" required><hr>
+                                        
+                                        <label for="longitude">Longitude:</label>
+                                        <input type="text" id="longitude" name="longitude" required><hr>
+                                    
+                                        <label for="latitude-c">Latitude C:</label>
+                                        <input type="text" id="latitude-c" name="latitude-c"><hr>
+                                        
+                                        <label for="longitude-c">Longitude C:</label>
+                                        <input type="text" id="longitude-c" name="longitude-c">
+                                        </div>
+                                    </div>
+                                    <hr style="border: white;">
+
+                                    <button type="submit">Find Routes</button>
+                                </form>
+                                <script>
+                                    document.getElementById('lookup-btn').addEventListener('click', function() {
+                                        var place = document.getElementById('place').value;
+                                        var geocodeUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`;
+                                
+                                        fetch(geocodeUrl)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data && data.length > 0) {
+                                                    var result = data[0];
+                                                    document.getElementById('latitude').value = result.lat;
+                                                    document.getElementById('longitude').value = result.lon;
+                                                } else {
+                                                    alert('Place not found. Please enter valid place.');
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.error('Error fetching the coordinates:', error);
+                                                alert('Error fetching the coordinates. Please try again.');
+                                            });
+                                    });
+                                </script> 
+                            </div>
+                        </div>
+                </div>
+                <div class="route-container1">
+                    <button class="submenu-button1">R Cercanas</button>
+                        <div class="submenu-content">
+                            <div class="route-list-container">
+                                <h2>Rutas Cercanas</h2>
+                                <div id="route-list"></div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="box2" class="box">
+            <button id="menu-button" class="submenu-button">RUTAS</button>
+            
+            <div id="menu-container" class="submenu-content">
+                    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 1:COTUMA</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route1-checkbox">
+                        <label for="route1-checkbox">Ruta 1 IDA</label>
+                        <br>
+                        <div id="route1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route2-checkbox">
+                        <label for="route2-checkbox">Ruta 1 VUELTA</label>
+                        <div id="route2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 2:DOLORES</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route2_1-checkbox">
+                        <label for="route2_1-checkbox">Ruta 2 IDA</label>
+                        <br>
+                        <div id="route2_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route2_2-checkbox">
+                        <label for="route2_2-checkbox">Ruta 2 VUELTA</label>
+                        <div id="route2_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 3:A15-Miraflores (c4union aqp)</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route3_1-checkbox">
+                        <label for="route3_1-checkbox">Ruta 3 IDA</label>
+                        <br>
+                        <div id="route3_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route3_2-checkbox">
+                        <label for="route3_2-checkbox">Ruta 3 VUELTA</label>
+                        <div id="route3_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 4:alto selva a(c4 unión aqp)</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route4_1-checkbox">
+                        <label for="route4_1-checkbox">Ruta 4 IDA</label>
+                        <br>
+                        <div id="route4_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route4_2-checkbox">
+                        <label for="route4_2-checkbox">Ruta 4 VUELTA</label>
+                        <div id="route4_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 5 C2-4D(Cono Norte)</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route5_1-checkbox">
+                        <label for="route5_1-checkbox">Ruta 5 IDA+vuelta</label>
+                        <br>
+                        <div id="route5_1-instructions" class="route-instructions"></div>
+    
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 6: BJUANXXIII</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route6_1-checkbox">
+                        <label for="route6_1-checkbox">Ruta 6 IDA</label>
+                        <br>
+                        <div id="route6_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route6_2-checkbox">
+                        <label for="route6_2-checkbox">Ruta 6 VUELTA</label>
+                        <div id="route6_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 7:  COTUM B</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route7_1-checkbox">
+                        <label for="route7_1-checkbox">Ruta 7 IDA</label>
+                        <br>
+                        <div id="route7_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route7_2-checkbox">
+                        <label for="route7_2-checkbox">Ruta 7 VUELTA</label>
+                        <div id="route7_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 8: C7-5AQPMasivo</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route8_1-checkbox">
+                        <label for="route8_1-checkbox">Ruta 8 IDA</label>
+                        <br>
+                        <div id="route8_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route8_2-checkbox">
+                        <label for="route8_2-checkbox">Ruta 8 VUELTA</label>
+                        <div id="route8_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 9: C- 3 de octubre</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route9_1-checkbox">
+                        <label for="route9_1-checkbox">Ruta 9 IDA</label>
+                        <br>
+                        <div id="route9_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route9_2-checkbox">
+                        <label for="route9_2-checkbox">Ruta 9 VUELTA</label>
+                        <div id="route9_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 10: C7-9 AQPMasivo</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route10_1-checkbox">
+                        <label for="route10_1-checkbox">Ruta 10 IDA</label>
+                        <br>
+                        <div id="route10_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route10_2-checkbox">
+                        <label for="route10_2-checkbox">Ruta 10 VUELTA</label>
+                        <div id="route10_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 11: A-Mariano Melgar	</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route11_1-checkbox">
+                        <label for="route11_1-checkbox">Ruta 11 IDA</label>
+                        <br>
+                        <div id="route11_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route11_2-checkbox">
+                        <label for="route11_2-checkbox">Ruta 11 VUELTA</label>
+                        <div id="route11_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 12:B-Polanco</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route12_1-checkbox">
+                        <label for="route12_1-checkbox">Ruta 12 IDA</label>
+                        <br>
+                        <div id="route12_1-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 13: B- 3 de octubre	</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route13_1-checkbox">
+                        <label for="route13_1-checkbox">Ruta 13 IDA</label>
+                        <br>
+                        <div id="route13_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route13_2-checkbox">
+                        <label for="route13_2-checkbox">Ruta 13 VUELTA</label>
+                        <div id="route13_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 14:  B-Cayma Enace	</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route14_1-checkbox">
+                        <label for="route14_1-checkbox">Ruta 14 IDA</label>
+                        <br>
+                        <div id="route14_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route14_2-checkbox">
+                        <label for="route14_2-checkbox">Ruta 14 VUELTA</label>
+                        <div id="route14_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 15: La Perla</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route15_1-checkbox">
+                        <label for="route15_1-checkbox">Ruta 15 IDA</label>
+                        <br>
+                        <div id="route15_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route15_2-checkbox">
+                        <label for="route15_2-checkbox">Ruta 15 VUELTA</label>
+                        <div id="route15_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 16: 15 de agosto</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route16_1-checkbox">
+                        <label for="route16_1-checkbox">Ruta 16 IDA</label>
+                        <br>
+                        <div id="route16_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route16_2-checkbox">
+                        <label for="route16_2-checkbox">Ruta 16 VUELTA</label>
+                        <div id="route16_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 17: Oriola A</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route17_1-checkbox">
+                        <label for="route17_1-checkbox">Ruta 17 IDA</label>
+                        <br>
+                        <div id="route17_1-instructions" class="route-instructions"></div>
+    
+                        <input type="checkbox" id="route17_2-checkbox">
+                        <label for="route17_2-checkbox">Ruta 17 VUELTA</label>
+                        <div id="route17_2-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            <div class="route-container">
+                <button class="submenu-button1">Ruta 18: Uchumayo</button>
+                    <div class="submenu-content">
+                        <input type="checkbox" id="route18_1-checkbox">
+                        <label for="route18_1-checkbox">Ruta 18 IDA+ VUELTA</label>
+                        <br>
+                        <div id="route18_1-instructions" class="route-instructions"></div>
+                    </div>
+            </div>
+    
+            
+            </div>
+            
+        </div>
+        <div id="box4" class="box"></div>
+    </div>
+
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="paraderos.js"></script>
+    <script src="CORDENADAS.js"></script>
+    <script src="main.js"></script>
+    <script src="menu_vertical.js"></script>
+
+    
+
+
+</body>
+</html>

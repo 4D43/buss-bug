@@ -1,0 +1,221 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#route-list-container {
+     float: left; width: 30%; overflow-y: 
+     auto; padding: 10px; 
+}
+
+.route-item { margin-bottom: 10px; 
+}
+#route-message {
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+#map-container {
+    position: fixed;
+    left: 0%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+#destination-form {
+    
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.custom-zoom-button {
+    background-color: lightseagreen;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px; 
+    outline: none;
+    font-size: 30px;
+}
+
+.custom-zoom-button:hover {
+    background-color: rgba(193, 34, 34, 0.9);
+}
+
+.leaflet-control-custom {
+    background-color: transparent !important; 
+    border: none !important; 
+    box-shadow: none !important; 
+}
+
+.custom-principal-button {
+    background-color: lightseagreen;
+    color: white;
+    position: absolute;
+    width: 125px;
+    height: 35px;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    
+}
+
+.custom-principal-button:hover {
+    background-color: rgba(193, 34, 34, 0.9);
+}
+
+.menu-hidden {
+    display: none;
+}
+
+.menu-visible {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 250px; 
+    background-color:none;
+    z-index: 900;
+    border-radius: 15px;
+}
+
+.leaflet-routing-container {
+    font-family:'Times New Roman', Times, serif; 
+    color: white;
+    background-color: lightslategray; 
+    border-radius: 25px; 
+    padding: 10px; 
+    padding-top: 15px;
+
+}
+
+.route-container {
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: grey;
+    border-radius: 10px;
+}
+
+.route-container1 {
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: grey;
+    border-radius: 10px;
+
+}
+
+.route-instructions {
+    display: none;
+    background-color: #f8f8f8;
+    border: 1px solid #000000;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.submenu-content {
+    display: none;
+    background-color:none;
+    padding: 10px;
+}
+
+.submenu-button {
+    background-color: #00eaea;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    width: 100%;
+    border-radius: 10px;
+}
+.submenu-button:hover {
+    background-color: #ddd;
+}
+.submenu-button:after {
+    content: '\25BC';
+    float: right;
+}
+.submenu-button1 {
+    background-color: lightseagreen;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    width: 100%;
+    border-radius: 10px;
+}
+.submenu-button1:hover {
+    background-color: #ddd;
+}
+.submenu-button1:after {
+    content: '\25BC';
+    float: right;
+}
+.submenu-button2 {
+    background-color: cornflowerblue;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    width: 230px;
+    border-radius: 10px;
+}
+.submenu-button2:hover {
+    background-color: #ddd;
+}
+.submenu-button2:after {
+    content: '\25BC';
+    float: right;
+}
+.submenu-content.active {
+    display: block;
+}
+
+#menu-container2{
+    background-color: rgb(0, 0, 0, 0.7);    
+    width: 270px;
+    margin-top: 10px;
+
+}
+
+#menu-container1{
+    background-color: black;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 94%;
+}
+
+#menu-container{
+    background-color: black;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width: 94%;
+}
+
